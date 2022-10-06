@@ -17,6 +17,8 @@ services:
       - /etc/letsencrypt/live/portainer-research-rendi.innocentbatman.my.id:/certs/live/portainer-research-rendi.innocentbatman.my.id:ro
       - /etc/letsencrypt/archive/portainer-research-rendi.innocentbatman.my.id:/certs/archive/portainer-research-rendi.innocentbatman.my.id:ro
     command: -H unix:///var/run/docker.sock
+    networks:
+      - nginx_network
 
   portainer_agent:
     container_name: portainer-agent
@@ -27,8 +29,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
+    networks:
+      - nginx_network
 
-networks: 
-  default: 
-    external: 
-      name: nginx_network
+networks:
+  nginx_network:
+    external: true
