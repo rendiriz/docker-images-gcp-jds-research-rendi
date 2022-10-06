@@ -5,5 +5,5 @@
 portainer/data
 
 ## Certbot
-certbot/www
-certbot/conf
+nginx/certbot/www
+nginx/certbot/conf
