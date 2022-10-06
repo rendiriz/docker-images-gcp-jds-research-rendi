@@ -1,6 +1,14 @@
 version: "3.9"
 
 services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
   portainer:
     container_name: portainer
     image: portainer/portainer-ce:2.15.1
