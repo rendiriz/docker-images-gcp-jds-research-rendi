@@ -1,2 +1,9 @@
 ### Environment
 .env
+
+## Portainer
+portainer/data
+
+## Certbot
+certbot/www
+certbot/conf
