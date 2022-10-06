@@ -14,8 +14,6 @@ services:
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    networks:
-      - nginx_network
 
   certbot:
     image: certbot/certbot:latest
@@ -23,6 +21,7 @@ services:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
 
-networks:
-  nginx_network:
-    external: true
+networks: 
+  default: 
+    external: 
+      name: nginx_network
