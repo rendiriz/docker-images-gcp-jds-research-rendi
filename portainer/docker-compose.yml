@@ -16,7 +16,8 @@ services:
       - ./data:/data
       - /etc/letsencrypt/live/portainer-research-rendi.innocentbatman.my.id:/certs/live/portainer-research-rendi.innocentbatman.my.id:ro
       - /etc/letsencrypt/archive/portainer-research-rendi.innocentbatman.my.id:/certs/archive/portainer-research-rendi.innocentbatman.my.id:ro
-
+    command: -H unix:///var/run/docker.sock
+    
   portainer_agent:
     container_name: portainer-agent
     image: portainer/agent:2.15.1
