@@ -2,6 +2,7 @@ version: "3.3"
 
 services:
   meilisearch:
+    container_name: meilisearch
     image: getmeili/meilisearch:v0.29
     ports:
       - "7700:7700"
