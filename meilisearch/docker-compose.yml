@@ -10,3 +10,9 @@ services:
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
     volumes:
       - ./data:/meili_data
+    networks:
+      - nginx_network
+
+networks:
+  nginx_network:
+    external: true
