@@ -16,3 +16,7 @@
 ## Meilisearch
 
 - getmeili/meilisearch:v0.29
+
+## PostgreSQL
+
+- postgres:14.5
