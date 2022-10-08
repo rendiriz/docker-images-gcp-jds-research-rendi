@@ -10,3 +10,6 @@ nginx/certbot/conf
 
 ## Meilisearch
 meilisearch/data
+
+## Postgresql
+postgresql/data
