@@ -8,35 +8,35 @@
 
 ```
 upstream <name> {
-  	server <ip>:<port>;
+  server <ip>:<port>;
 }
 
 server {
-	if ($host = <domain>) {
-		return 301 https://$host$request_uri;
-	}
+  if ($host = <domain>) {
+    return 301 https://$host$request_uri;
+  }
 
-	listen 80;
+  listen 80;
 
-	server_name <domain>;
+  server_name <domain>;
 
-	location /.well-known/acme-challenge/ {
-		root /var/www/certbot;
-	}
+  location /.well-known/acme-challenge/ {
+    root /var/www/certbot;
+  }
 }
 
 server {
-	listen 443 ssl;
+  listen 443 ssl;
 
-	server_name <domain>;
+  server_name <domain>;
 
-	ssl_certificate /etc/nginx/ssl/live/<domain>/fullchain.pem;
-	ssl_certificate_key /etc/nginx/ssl/live/<domain>/privkey.pem;
+  ssl_certificate /etc/nginx/ssl/live/<domain>/fullchain.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/<domain>/privkey.pem;
 
-	location / {
-		proxy_pass http://<name>/;
-		proxy_set_header Host $host;
-	}
+  location / {
+    proxy_pass http://<name>/;
+    proxy_set_header Host $host;
+  }
 }
 ```
 
