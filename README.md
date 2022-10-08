@@ -44,7 +44,7 @@ server {
 
 ### Docker
 
-```
+```bash
 docker images
 docker ps -a
 ```
