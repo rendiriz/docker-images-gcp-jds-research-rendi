@@ -7,3 +7,6 @@ portainer/data
 ## Certbot
 nginx/certbot/www
 nginx/certbot/conf
+
+## Meilisearch
+meilisearch/data
