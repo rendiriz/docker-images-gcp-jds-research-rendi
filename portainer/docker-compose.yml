@@ -10,7 +10,7 @@ services:
       - "9443:9443"
     environment:
       - VIRTUAL_HOST=portainer-research-rendi.innocentbatman.my.id
-      - VIRTUAL_PORT=9000
+      - VIRTUAL_PORT=9443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./data:/data
