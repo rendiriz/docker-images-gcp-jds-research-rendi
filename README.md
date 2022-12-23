@@ -4,29 +4,32 @@
 
 ### Nginx
 
-`nginx/conf.d/example.com`
+`nginx/conf.d/example.com.conf`
 
 ```
-upstream <name> {
+upstream <upstream_name> {
   server <ip>:<port>;
 }
 
 server {
-  if ($host = <domain>) {
-    return 301 https://$host$request_uri;
-  }
-
   listen 80;
+  listen [::]:80;
 
-  server_name <domain>;
+  server_name <domain> www.<domain>;
+  server_tokens off;
 
   location /.well-known/acme-challenge/ {
     root /var/www/certbot;
   }
+
+  location / {
+    return 301 https://<domain>$request_uri;
+  }
 }
 
 server {
-  listen 443 ssl;
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
 
   server_name <domain>;
 
@@ -34,7 +37,7 @@ server {
   ssl_certificate_key /etc/nginx/ssl/live/<domain>/privkey.pem;
 
   location / {
-    proxy_pass http://<name>/;
+    proxy_pass http://<upstream_name>/;
     proxy_set_header Host $host;
   }
 }
@@ -54,14 +57,14 @@ docker ps -a
 ```
 docker-compose -f nginx/docker-compose.yml up -d
 docker-compose -f nginx/docker-compose.yml down
-docker exec -ti nginx bash
-nginx -t
+docker nginx restart
 ```
 
 ### Certbot
 
 ```
 docker-compose -f nginx/certbot.yml run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ -d example.com
+docker-compose -f nginx/certbot.yml run --rm certbot renew
 ```
 
 ### Portainer
@@ -92,6 +95,13 @@ docker-compose -f debezium/docker-compose.yml --env-file debezium/.env up -d
 docker-compose -f debezium/docker-compose.yml down
 ```
 
+### Debezium Kafka
+
+```
+docker-compose -f debezium-kafka/docker-compose.yml up -d
+docker-compose -f debezium-kafka/docker-compose.yml down
+```
+
 ## Docker Image Library
 
 ### Nginx
@@ -118,3 +128,10 @@ docker-compose -f debezium/docker-compose.yml down
 ### Debezium PostgreSQL
 
 - debezium/postgres:14
+
+### Debezium Kafka
+
+- debezium/zookeeper:2.1
+- debezium/kafka:2.1
+- debezium/connect:2.1
+- obsidiandynamics/kafdrop:3.30.0
