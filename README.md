@@ -85,6 +85,13 @@ docker-compose -f postgresql/docker-compose.yml --env-file postgresql/.env up -d
 docker-compose -f postgresql/docker-compose.yml down
 ```
 
+### Debezium PostgreSQL
+
+```
+docker-compose -f debezium/docker-compose.yml --env-file debezium/.env up -d
+docker-compose -f debezium/docker-compose.yml down
+```
+
 ## Docker Image Library
 
 ### Nginx
@@ -107,3 +114,7 @@ docker-compose -f postgresql/docker-compose.yml down
 ### PostgreSQL
 
 - postgres:14.5
+
+### Debezium PostgreSQL
+
+- debezium/postgres:14

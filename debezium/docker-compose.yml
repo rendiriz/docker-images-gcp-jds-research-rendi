@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  debezium-postgres:
+    container_name: debezium-postgres
+    image: debezium/postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    ports:
+      - '5433:5432'
+    volumes: 
+      - ./data:/var/lib/postgresql/data
