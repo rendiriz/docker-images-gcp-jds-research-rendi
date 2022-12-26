@@ -13,3 +13,6 @@ meilisearch/data
 
 ## Postgresql
 postgresql/data
+
+## Kafka
+kafka

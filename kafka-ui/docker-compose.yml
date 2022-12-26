@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    hostname: kafka-ui
+    container_name: kafka-ui
+    ports:
+      - 8080:8080
+    environment:
+      AUTH_TYPE: $AUTH_TYPE
+      SPRING_SECURITY_USER_NAME: $USER_NAME
+      SPRING_SECURITY_USER_PASSWORD: $PASSWORD
+      KAFKA_CLUSTERS_0_NAME: example
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka1:29092,kafka2:29093
+      KAFKA_CLUSTERS_0_METRICS_PORT: 9101,9102
+      KAFKA_CLUSTERS_0_SCHEMAREGISTRY: http://schema-registry:8081
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: kafka-connect-example
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://connect:8083
+    networks:
+      - ui-kafka-network
+
+networks:
+  ui-kafka-network:
+    name: kafka-network
