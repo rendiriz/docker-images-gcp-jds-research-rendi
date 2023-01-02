@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  cassandra:
+    build:
+      context: ./cassandra
+      args:
+        image: cassandra:4.1.0
+    hostname: cassandra
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      CASSANDRA_CLUSTER_NAME: faker
+      CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+      CASSANDRA_DC: dcLocal
+      CASSANDRA_RACK: rackLocal
+      CASSANDRA_START_RPC: true
+      CASSANDRA_USERNAME: $CASSANDRA_USERNAME
+      CASSANDRA_PASSWORD: $CASSANDRA_PASSWORD
+      CASSANDRA_HOME: /opt/cassandra
+    volumes:
+      - ./cassandra-data:/var/lib/cassandra
+
+  spark:
+    image: bitnami/spark:3.3.1
+    hostname: spark
+    container_name: spark
+    depends_on:
+      - cassandra
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    environment:
+      CASSANDRA_HOST: cassandra
+      CASSANDRA_PORT: 9042
+      CASSANDRA_USERNAME: $CASSANDRA_USERNAME
+      CASSANDRA_PASSWORD: $CASSANDRA_PASSWORD
+    volumes:
+      - ./spark-data:/opt/bitnami/spark/work
+      - ./spark/pom.xml:/opt/bitnami/spark/work/pom.xml
+
+volumes:
+  cassandra-data:
+  spark-data:

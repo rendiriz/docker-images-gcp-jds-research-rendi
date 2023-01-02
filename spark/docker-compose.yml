@@ -1,0 +1,51 @@
+version: '3'
+services:
+  spark-master:
+    image: bde2020/spark-master:2.4.5-hadoop2.7
+    container_name: spark-master
+    hostname: spark-master
+    ports:
+      - "7077:7077"
+      - "8080:8080"
+    environment:
+      - SPARK_MASTER_PORT=7077
+      - SPARK_MASTER_WEBUI_PORT=8080
+      - SPARK_AUTHENTICATE=true
+      - SPARK_AUTHENTICATE_SECRET=/etc/spark-auth.txt
+    volumes:
+      - spark-auth.txt:/etc/spark-auth.txt
+      - spark-event-logs:/usr/local/spark/logs
+
+  spark-worker1:
+    image: bde2020/spark-worker:2.4.5-hadoop2.7
+    container_name: spark-worker1
+    hostname: spark-worker1
+    depends_on:
+      - spark-master
+    links:
+      - spark-master:spark-master
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - SPARK_AUTHENTICATE=true
+      - SPARK_AUTHENTICATE_SECRET=/etc/spark-auth.txt
+    volumes:
+      - spark-auth.txt:/etc/spark-auth.txt
+
+  spark-worker2:
+    image: bde2020/spark-worker:2.4.5-hadoop2.7
+    container_name: spark-worker2
+    hostname: spark-worker2
+    depends_on:
+      - spark-master
+    links:
+      - spark-master:spark-master
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - SPARK_AUTHENTICATE=true
+      - SPARK_AUTHENTICATE_SECRET=/etc/spark-auth.txt
+    volumes:
+      - spark-auth.txt:/etc/spark-auth.txt
+
+volumes:
+  spark-event-logs:
+  spark-auth.txt:

@@ -1,0 +1,5 @@
+<dependency>
+  <groupId>com.datastax.spark</groupId>
+  <artifactId>spark-cassandra-connector_2.12</artifactId>
+  <version>3.5.0</version>
+</dependency>
